@@ -1,0 +1,117 @@
+.flex-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0.5rem 3rem;
+}
+.line1, .line2{
+    font-size: 6.7rem;
+    margin: 0;
+}
+.line1{
+    color: var(--white);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: var(--blue);
+}
+.line1:hover{
+    color: var(--black);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: var(--white);
+    transition: all 0.3s;
+}
+.line2{
+    color: var(--blue);
+}
+.info-text{
+    font-size: 1rem;
+    color: var(--grey);
+    margin-top: 1rem;
+}
+
+.btn-flex{
+    display: flex;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.right-side{
+    width: 50%;
+    position: relative;
+    padding: 1rem;
+    margin-right: 3rem;
+}
+.iphone-img{
+    position: absolute;
+    z-index: 70;
+    width: 50%;
+    min-width: 300px;
+    right: 0;
+}
+.gradient-img{
+    position: absolute;
+    min-width: 250px;
+    width: 40%;
+    right: 0;
+    top: 8rem;
+}
+
+
+@media only screen and (max-width: 1000px) {
+
+    .line1, .line2{
+        font-size: 5rem;
+        margin: 0;
+    }
+
+    .iphone-img{
+        width: 50%;
+        min-width: 250px;
+        right: 0;
+    }
+    .gradient-img{
+        min-width: 200px;
+        top: 6rem;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+
+    .flex-info{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 3rem;
+        text-align: center;
+    }
+
+    .btn-flex{
+        justify-content: center;
+    }
+
+    .line1, .line2{
+        font-size: 5rem;
+        margin: 0;
+    }
+
+    .right-side{
+        display: block;
+        margin: auto;
+        margin: 3rem;
+    }
+
+    .iphone-img{
+        width: 50%;
+        min-width: 250px;
+        right: 0;
+        left: -15%;
+    }
+    .gradient-img{
+        min-width: 200px;
+        top: 6rem;
+        left: 5%;
+    }
+}
+  
