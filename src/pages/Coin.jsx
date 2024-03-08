@@ -6,40 +6,57 @@ import Header from "../components/Common/Header/Header";
 import List from "../components/Dashboard/Lists/List";
 import { coinObject } from "../functions/coinObject";
 import Coininfo from "../components/Coin/CoinInfo/Coininfo";
+import { getCoinData } from "../functions/getCoinData";
+import { getCoinPrices } from "../functions/getCoinPrices";
+import LineChart from "../components/Coin/LineChart/LineChart";
+import { convertDate } from "../functions/convertDate";
 
 const CoinPage = () => {
   const { Coinid } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [coinData, setCoinData] = useState();
   const [days, setDays] = useState(30);
+  const [chartData, setChartData] = useState({});
 
   useEffect(() => {
     if (Coinid) {
-      axios
-        .get(`https://api.coingecko.com/api/v3/coins/${Coinid}`)
-        .then((response) => {
-          console.log("response->", response);
-          coinObject(setCoinData, response.data);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.log("error->", error);
-          setIsLoading(false);
-        });
-
-      axios
-        .get(
-          `https://api.coingecko.com/api/v3/coins/${Coinid}/market_chart?vs_currency=usd&days=${days}&interval=daily`,
-        )
-        .then((response) => {
-          console.log("prices->", response.data.prices);
-        })
-        .catch((error) => {
-          console.log("error->", error);
-          setIsLoading(false);
-        });
+      getData();
     }
   }, [Coinid]);
+
+  async function getData() {
+    const data = await getCoinData(Coinid);
+    if (data) {
+      coinObject(setCoinData, data);
+      const prices = await getCoinPrices(Coinid, days);
+      if (prices.length > 0) {
+        console.log("hiih");
+
+        setChartData({
+          labels: prices.map((price) => {
+            convertDate(price[0]);
+          }),
+          datasets: [
+            {
+              label: "Dataset 1",
+              data: prices.map((price) => {
+                new Date(price[1]);
+              }),
+              borderColor: "#3a80e9",
+              borderWidth: 1,
+              fill: true,
+              tension: 0.25,
+              backgroundColor: prices
+                ? "transparent"
+                : "rgba(58, 128, 233, 0.1)",
+              pointRadius: 0,
+            },
+          ],
+        });
+        setIsLoading(false);
+      }
+    }
+  }
 
   return (
     <div>
@@ -50,6 +67,9 @@ const CoinPage = () => {
         <>
           <div className="Coin-wrapper">
             <List coin={coinData} />
+          </div>
+          <div className="Coin-wrapper">
+            <LineChart chartData={chartData} />
           </div>
           <Coininfo heading={coinData.name} desc={coinData.desc} />
         </>
