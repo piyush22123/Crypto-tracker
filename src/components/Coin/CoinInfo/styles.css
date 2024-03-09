@@ -9,7 +9,7 @@
   font-size: 14px;
 }
 .Coin-info-desc a {
-  texdecoration: underline !important;
+  text-decoration: underline !important;
 }
 .Coin-info-desc a:hover {
   color: var(--blue) !important;
