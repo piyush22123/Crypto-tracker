@@ -8,7 +8,6 @@ export const getCoinData = (id) => {
     })
     .catch((error) => {
       console.log("error->", error);
-      setIsLoading(false);
     });
   return myData;
 };

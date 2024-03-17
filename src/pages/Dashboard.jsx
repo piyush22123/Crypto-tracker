@@ -5,6 +5,7 @@ import TabsComponent from "../components/Dashboard/Tabs";
 import Search from "../components/Dashboard/search/Search";
 import PaginationComponent from "../components/pagination/PaginationComponent";
 import Loader from "../components/Common/Loader/Loader";
+import { get100Coins } from "../functions/get100Coins";
 
 const Dashboard = () => {
   const [coins, setCoins] = useState([]);
@@ -33,21 +34,18 @@ const Dashboard = () => {
 
   // fetching data using axios because its better and return data in json itself
   useEffect(() => {
-    axios
-      .get(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=inr&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en",
-      )
-      .then((response) => {
-        console.log("response->", response);
-        setCoins(response.data);
-        setPaginatedCoins(response.data.slice(0, 10));
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log("error->", error);
-        setIsLoading(false);
-      });
+    getData();
   }, []);
+
+  const getData = async () => {
+    setIsLoading(true);
+    const data = await get100Coins();
+    if (data) {
+      setCoins(data);
+      setPaginatedCoins(data.slice(0, 10));
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
